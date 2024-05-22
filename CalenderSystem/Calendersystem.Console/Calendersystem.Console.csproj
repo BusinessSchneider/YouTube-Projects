@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Infrastructure.Calendersystem\Infrastructure.Calendersystem.csproj" />
+    <ProjectReference Include="..\Calendersystem\Calendersystem.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Infrastructure.Calendersystem
+namespace Calendersystem
 {
     /// Das Julianische Datum gibt an, wie viele Tage seit dem 1. Januar 4713 v. Chr. um 12h UT vergangen sind.
     /// 
     /// Es stellt eine fortlaufende Tageszählung dar, welche in der Astronomie oft verwendet wird.
     /// Es hat gegenüber im Alltag verwendeten Kalendern den Vorteil, dass Zeitdifferenzen sehr leicht berechnet werden können, 
     /// ohne sich um Besonderheiten wie ungleich lange Monate und Schaltjahre kümmern zu müssen.
-    public struct JulianDate : IComparable, IComparable<JulianDate>
+    public class JulianDate : IComparable, IComparable<JulianDate>
     {
         /// <summary>
         /// Die Angabe erfolgt in Tagen
@@ -57,7 +57,7 @@ namespace Infrastructure.Calendersystem
             if (obj is JulianDate)
                 return CompareTo((JulianDate)obj);
 
-            throw new ArgumentException("Object is not a JulianDate");
+            throw new ArgumentException("Object is not a JulianDate.");
         }
 
         public int CompareTo(JulianDate other)
@@ -73,9 +73,8 @@ namespace Infrastructure.Calendersystem
         public override bool Equals(object obj)
         {
             if (obj is JulianDate)
-            {
                 return Equals((JulianDate)obj);
-            }
+            
             return false;
         }
 

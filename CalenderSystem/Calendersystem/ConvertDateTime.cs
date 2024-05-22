@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Infrastructure.Calendersystem
+namespace Calendersystem
 {
     /// <summary>
     /// Repräsentiert die Konvertierung der einzelnen Kalendersysteme.
     /// 
-    /// Im Folgdenden sind noch Referenzen zu den Kalendersystemen aufgeführt:
+    /// Im Folgenden sind noch Referenzen zu den Kalendersystemen aufgeführt:
     /// Wikipedia: Julianisches Datum<seealso cref="https://de.wikipedia.org/wiki/Julianisches_Datum"/>
     /// Online-Kalenderrechner: <seealso cref="https://calendarhome.com/calculate/convert-a-date"/>
     /// Das Jahr 0: <seealso cref="https://de.wikipedia.org/wiki/Jahr_null"/>
@@ -17,7 +17,7 @@ namespace Infrastructure.Calendersystem
         /// </summary>
         /// <param name="julianDate"></param>
         /// <remarks>
-        /// Zum junlianischen Datum wird noch 1.5 addiert, um den korrekten Wochentag zu berechnen, da der Wochentag am Montag, den 01.01.4713 v. Chr. um 12:00 Mittags UT beginnt.
+        /// Zum julianischem Datum wird noch 1.5 addiert, um den korrekten Wochentag zu berechnen, da der Wochentag am Montag, den 01.01.4713 v. Chr. um 12:00 Mittags UT beginnt.
         /// Die 0.5 beziet sich auf die Tageshälfte, da der Tag um 12:00 Mittags UT beginnt.
         /// </remarks>
         /// <returns></returns>
@@ -123,33 +123,9 @@ namespace Infrastructure.Calendersystem
         /// <returns></returns>
         public static JulianDate FromGregorianCalenderToJulianDate(int year, int month, int day, int hour, int minute, int second)
         {
-            double julianDate = ToJulianDate(year, month, day, hour, minute, second);
-
-            return new JulianDate(julianDate);
-        }
-
-        /// <summary>
-        /// Berechnet das julianische Datum aus dem gregorianischem Datum mit der Zeit.
-        /// </summary>
-        /// <param name="year">Jahr</param>
-        /// <param name="month">Monat</param>
-        /// <param name="day">Tag</param>
-        /// <param name="hour">Stunde</param>
-        /// <param name="minute">Minute</param>
-        /// <param name="second">Sekunde</param>
-        /// <remarks>
-        /// Hinweise:
-        /// - Die Berechnung des julianischen Datums erfolgt am 01.01.4713 v. Chr um 12:00 Mittags UT und wurde von Joseph Justus Scaliger eingeführt.
-        /// - Das Jahr 0 wird bei der Berechnung des julianischen Datums berücksichtigt.
-        /// - Die Berechnung des julianischen Datums erfolgt unter Berücksichtigung der Schaltjahre.
-        /// - Die Berechnung des julianischen Datums erfolgt unter Berücksichtigung der Zeit.
-        /// </remarks>
-        /// <returns></returns>
-        public static double ToJulianDate(int year, int month, int day, int hour, int minute, int second)
-        {
             var millisecond = 0;
 
-            // Schritt 1: Monat-Korrektur, falls Monat Januar oder Februar
+            // Schritt 1: Monats-Korrektur, falls Monat Januar oder Februar
             if (month < 3)
             {
                 year -= 1;
@@ -163,14 +139,14 @@ namespace Infrastructure.Calendersystem
             // Schritt 3: Berechnung des Tagesbruchs aus Stunden, Minuten, Sekunden und Millisekunden
             double dayFraction = (double)hour / 24 + (double)minute / (24 * 60) + (double)second / (24 * 60 * 60) + (double)millisecond / (24 * 60 * 60 * 1000);
 
-            // Schritt 4: Berechnung der Hauptkomponenten des Julianischen Datums
+            // Schritt 4: Berechnung der Hauptkomponenten des julianischen Datums
             double julianYearDays = Math.Floor(365.25 * (year + 4716));
             double julianMonthDays = Math.Floor(30.6001 * (month + 1));
 
-            // Schritt 5: Kombination aller Komponenten zum Julianischen Datum
-            double julianDay = julianYearDays + julianMonthDays + day + leapYearCorrection - 1524.5 + dayFraction;
+            // Schritt 5: Kombination aller Komponenten zum julianischen Datum
+            double julianDate = julianYearDays + julianMonthDays + day + leapYearCorrection - 1524.5 + dayFraction;
 
-            return julianDay;
+            return new JulianDate(julianDate);
         }
 
         /// <summary>
@@ -223,6 +199,7 @@ namespace Infrastructure.Calendersystem
             double yearDays = Math.Floor(365.25 * yearComponent);
             double monthComponent = Math.Floor((tempDate - yearDays) / 30.6001);
             double dayFraction = tempDate - yearDays - Math.Floor(30.6001 * monthComponent) + fractionalPartOfJulianDate;
+
             int day = (int)Math.Floor(dayFraction);
             int month = monthComponent < 14 ? (int)(monthComponent - 1) : (int)(monthComponent - 13);
             int year = monthComponent < 14 ? (int)(yearComponent - 4716) : (int)(yearComponent - 4715);
