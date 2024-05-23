@@ -4,8 +4,9 @@ namespace CalculatePortalDays
 {
     internal static class PortalDaysCalculator
     {
+
         /// <summary>
-        /// Dient zur Kin-Berechnung für den Tzolkin-Kalender
+        /// Dient zur Kin-Berechnung für den Tzolkin-Kalender.
         /// </summary>
         private static Dictionary<int, int> _jahresZahlenKinBerechnung = new Dictionary<int, int>()
         {
